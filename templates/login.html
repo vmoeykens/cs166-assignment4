@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse"
+                                data-target="#collapseOne" aria-expanded="true"
+                                aria-controls="collapseOne">
+                            User Authentication
+                        </button>
+                    </h5>
+                    <div id="collapseOne"
+                         class="collapse {% if not search_term %}show{% endif %}"
+                         aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>Bank security isn't what it should be. Not only are credentials
+                                stored in a web-accessible location but the passwords are
+                                encrypted with a weak algorithm and aren't even salted!
+                            </p>
+                            <p>Being the clever hacker that you are, you’d like nothing more than to gain unauthorized access to the bank by logging in as another user (perhaps to transfer the funds to one of your anonymous CatCoin accounts). You’ve done some reconnaissance and learned that the developers of the Catamount Community Bank initially deploy their code on a development server for security testing before pushing it to the production server. A recent oversight on the development server left a number of user accounts mistakenly stored in a web-accessible directory!</p>
+                            <p><strong>PART I:</strong> For Part I of this assignment, you are to identify and steal the password file. Time for some URL spelunking! The .CSV (comma-separated value) file is located in the following directory: <a href="http://jreddy1.w3.uvm.edu/cs166/accounts/" target="_blank">http://jreddy1.w3.uvm.edu/cs166/accounts/</a>. However, you don’t know the actual name of the file, just where it is located. Unfortunately, you aren’t able to list the contents of that web directory. Not letting that deter you, you decide to write a Python script to test a large number of common names in hopes that you’ll find a match and be able to download the file.
+                            </p>
+                            <p>Once you find and open the .CSV file, you may notice that the passwords aren't what you might expect (no "pass123" or "mybank7"). Navigate to the <code>/instance/static</code> directory in your Catamount Community Bank Flask project and paste the credentials you obtained into the <code>passwd</code> file (be sure to leave the header row in the file: username,id,password_hash).
+                            </p>
+                            <p>
+                                Run the Flask app and navigate to the “Secure Login” page. Now, try logging in with a username / password combination from the .CSV file. No luck? Shoot - the passwords must be encrypted! We'll have to see what we can do about that in Part II...
+                            </p>
+                        <p><hr></p>
+                            <p>
+                                <strong>PART II:</strong> Password cracking: You'll use a dictionary
+                                attack to crack the passwords (you'll be provided a word list). Once you think
+                                you've cracked the passwords in the file,
+                                you can confirm you've done this correctly by
+                                logging in on this page as one of the bank's
+                                customers.
+                            </p>
+                            <p>Once you've accomplished this, it is time to improve the security
+                                of the site. You are to modify the password hashing code to
+                                add a fixed-length salt to each password and then update each
+                                user's password in this more secure form (update the hashes in the <code>passwd</code> file).
+                                <em>Make sure you modify code for authentication!
+                                Otherwise, adding a salt will just make it
+                                impossible for anyone to login!</em> We are using
+                                SHA-1 for hashing and a common salt length for
+                                that algorithm would be 40 characters. See:
+                                <code>/lessons/password_crack.py</code> in the
+                                application source code.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col md-6">
+                <form action="{{ url_for('.login') }}" method="POST"
+                      id="login_form">
+                    <div class="form-group">
+                        <label for="name">Username:</label><input
+                            class="form-control" type="text" id="username"
+                            name="username" required><br/>
+                        <label for="password">Password:</label><input
+                            class="form-control" type='password' id="password"
+                            name="password" required>
+                        <button type="submit" class="btn btn-primary mt-4">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

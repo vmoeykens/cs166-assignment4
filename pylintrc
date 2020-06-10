@@ -1,0 +1,37 @@
+[BASIC]
+
+# Good variable names which should always be accepted, separated by a comma
+# We have some shorties that are OK. app = application, cnx = connection,
+fh = file handle
+good-names=ok,a,b,c,d,e,f,g,g_,h,i,j,k,m,n,p,q,r,s,t,u,v,x,y,z,app,cnx,fh
+
+# Bad variable names which should always be refused, separated by a comma
+bad-names=l,O,I,foo,bar,baz,id
+
+# Regular expression matching correct constant names
+const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+
+extension-pkg-whitelist=
+
+ignore=
+
+# F0401 Unable to import module
+# W0511 Bitching about TODO
+# PyLint's import module can give false negatives
+disable=F0401,W0511
+
+#   R0903 = Too few public methods
+#   R0914 = Too many local variables
+
+[SIMILARITIES]
+
+# Minimum lines number of a similarity.
+min-similarity-lines=4
+
+
+[MISCELLANEOUS]
+
+# List of note tags to take in consideration, separated by a comma.
+notes=FIXME,STUB,TODO
+
+

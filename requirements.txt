@@ -1,0 +1,21 @@
+pip
+Flask
+requests
+
+# SQLAlchemy==1.2.0b3
+# See: https://stackoverflow.com/questions/48390207
+# and https://github.com/wtforms/wtforms-sqlalchemy/issues/9
+# as to why we limit sqlalchemy version (for now)
+# MySQL-python
+# mysqlclient  # A Python-3 compatible, drop-in replacement for MySQL-python
+# Flask_SQLAlchemy
+
+# WTForms
+# Flask_WTF
+# WTForms-SQLAlchemy
+
+Werkzeug
+
+pytest
+nose
+tox

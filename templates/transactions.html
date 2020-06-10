@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse"
+                                data-target="#collapseOne" aria-expanded="true"
+                                aria-controls="collapseOne">
+                            About SQL Injection Attack
+                        </button>
+                    </h5>
+                    <div id="collapseOne" class="collapse {% if not search_term %}show{% endif %}"
+                         aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>This view is vulnerable to SQL injection attack.
+                                A SQL injection attack tricks a web app into
+                                executing modified (or perhaps even arbitrary)
+                                queries. Hackers can use this to access,
+                                modify, or even destroy data (recall the CIA Triad).
+                            </p>
+                            <p>Here's an example. Let's assume you're already
+                                logged in and viewing this page. You've been
+                                authenticated and the application knows your
+                                user id and displays transactions for <em>your
+                                account only</em>. However, with a SQL
+                                injection, you can see everyone's transactions!
+                            </p>
+                            <p>How? If you know a little SQL, you can guess that
+                                the search function might wrap the search term
+                                in "% ... %". To take advantage of this you can
+                                append <strong><code>%" OR "1" LIKE "%1</code>
+                                </strong> to your search term. This "search
+                                term" <em>adds an extra clause to the search
+                                query that always evaluates as true</em>. So
+                                records aren't filtered and the entire
+                                transaction table is returned.
+                            </p>
+                            <p>Try it! Notice your account number is 1234.
+                                Now search for transactions containing the word
+                                <strong><code>VISA</code></strong>. You'll see
+                                only your transactions with "VISA" in the memo
+                                column. But what happens when you enter
+                                <strong><code>VISA%" OR "1"
+                                    LIKE "%1</code></strong>?
+                            </p>
+                            <p>To help you see what's going on, the SQL query
+                                for each request is shown at the bottom of the
+                                page.
+                            </p>
+                            <p>Take a look at the <strong><code>create_search_query</code></strong>
+                                function in <strong><code>lessons/sql_injection.py</code></strong>. Make
+                                sure you understand why this code is vulnerable
+                                and consider how you might modify it in order
+                                to prevent any such attack.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col md-6">
+                <form class="form-inline"
+                      action="{{ url_for('.transactions') }}"
+                      method="POST">
+                    <input type="text" class="form-control mb-2 mr-sm-2"
+                           id="search_term" name="search_term"
+                           placeholder="{% if not search_term %}Search...{% endif %}"
+                           value="{{ search_term }}">
+                    <div class="btn-toolbar">
+                        <button type="submit" class="btn btn-primary mb-2 mr-2">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col md-6">
+                <a href="{{ url_for('.transactions') }}"
+                   class="btn btn-primary mb-2 mr-2">Clear search</a>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead class="uvm-green">
+            <tr>
+                <th>Account ID</th>
+                <th>Transaction ID</th>
+                <th>Date</th>
+                <th class="text-right">Debit</th>
+                <th class="text-right">Credit</th>
+                <th>Memo</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[4].split()[0] }}</td>
+                <td class="text-right">{{ "${:,.2f}".format(row[2]) }}</td>
+                <td class="text-right">{{ "${:,.2f}".format(row[3]) }}</td>
+                <td>{{ row[5] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<br>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">SQL executed</h5>
+        <code>{{ query }}</code>
+    </div>
+</div>
+
+{% endblock %}
