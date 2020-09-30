@@ -24,7 +24,7 @@ def app():
 def client(app):
     """Get a test client for Flask app. This client is used for testing
     the app -- that is, views and whatnot. Use db_setup_client for lower
-    level testing that does not involve views. Headless stuff. Note that
+    level testing that does not involve views (i.e. headless stuff). Note that
     we disable WTF's CSRF protection so we don't get CSRF validation
     errors when creating and submitting forms in testing . """
     # print('fixture: client')
