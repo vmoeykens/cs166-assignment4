@@ -22,7 +22,7 @@ def create_search_query(account_id: int, search_term: str) -> str:
     """
     # Never do this in the real world...
     q = 'SELECT * FROM trnsaction ' \
-        'WHERE trnsaction.account_id = {} ' \
+        f'WHERE trnsaction.account_id = {account_id} ' \
         'AND ' \
-        'trnsaction.memo LIKE "%{}%"'.format(account_id, search_term)
+        f'trnsaction.memo LIKE "%{search_term}%"'
     return q
